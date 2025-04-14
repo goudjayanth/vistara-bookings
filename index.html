@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vistara Bookings</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Google Fonts: Unique Font for Logo -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
+
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Sticky Navbar Styling */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: white;
+      padding: 0.7rem 0;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Limit navbar width and center it */
+    .navbar .container-fluid {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    /* Logo Font Styling */
+    .navbar-brand {
+      color: #ffcc00;
+      font-size: 1.9rem;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+    }
+
+    .navbar-brand:hover {
+      color: #ffc107;
+    }
+
+    .nav-link {
+      color: black;
+      font-weight: 500;
+      transition: 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: #ffcc00;
+    }
+
+    .carousel-item img {
+      height: 100vh;
+      object-fit: cover;
+    }
+    .aboutbanquethall {
+      background-color: #f8f9fa;
+      padding: 5rem 2rem;
+    }
+    .banquethall{
+      display: flex;
+      margin-top: 5%;
+    }
+    @keyframes slideInLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(-60px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  
+    @keyframes slideInRight {
+      0% {
+        opacity: 0;
+        transform: translateX(60px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  
+    /* Banquet Hall Image Animation */
+    .banquethall img {
+      flex: 1 1 600px;
+      max-width: 600px;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.5s ease;
+      animation: slideInLeft 2s ease-in-out; /* Slide in from left */
+    }
+  
+    .banquethall img:hover {
+      transform: scale(1.05);
+    }
+  
+    /* Banquet Hall Text (Div) Animation */
+    .banquethall div {
+      padding: 1.5%;
+      animation: slideInRight 2.5s ease-out; /* Text slides in from right */
+    }
+  
+    /* Animation for h1 tag */
+    .banquethall h1 {
+      color: #222;
+      font-size: 2.4rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      margin-left: 11%;
+      animation: slideInRight 2.5s ease-out; /* Corrected animation name */
+    }
+  
+    /* Animation for p tag */
+    .banquethall p {
+      font-size: 1.15rem;
+      color: #444;
+      line-height: 2;
+      text-align: justify;
+      max-width: 95%;
+      margin-left: 4%;
+      animation: slideInRight 2.2s ease-out; /* Corrected animation name */
+    }
+
+
+    .aboutfarmhouse {
+      background-color: #f8f9fa;
+      padding: 5rem 2rem;
+    }
+    .farmhouse{
+      display: flex;
+      margin-top: 5%;
+    }
+    @keyframes slideInLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(-60px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  
+    @keyframes slideInRight {
+      0% {
+        opacity: 0;
+        transform: translateX(60px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  
+    /* Banquet Hall Image Animation */
+    .farmhouse img {
+      flex: 1 1 600px;
+      max-width: 600px;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      margin-right: 3%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.5s ease;
+      animation: slideInRight 3s ease-in-out; /* Slide in from left */
+    }
+  
+    .farmhouse img:hover {
+      transform: scale(1.05);
+    }
+  
+    /* Banquet Hall Text (Div) Animation */
+    .farmhouse div {
+      padding: 1.5%;
+      animation: slideInLeft 3.5s ease-out; /* Text slides in from right */
+    }
+  
+    /* Animation for h1 tag */
+    .farmhouse h1 {
+      color: #222;
+      font-size: 2.4rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      margin-left: 3%;
+      animation: slideInLeft 3.5s ease-out; /* Corrected animation name */
+    }
+  
+    /* Animation for p tag */
+    .farmhouse p {
+      font-size: 1.15rem;
+      color: #444;
+      line-height: 2;
+      text-align: justify;
+      max-width: 95%;
+      margin-left: -3%;
+      animation: slideInLeft 3.2s ease-out; /* Corrected animation name */
+    }
+    .whyvistara-section {
+      text-align: center;
+      margin-top: 0%;
+      padding: 2rem;
+      background-color: #f7f7f7;
+  }
+
+  .whyvistara-heading {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 3rem;
+      font-weight: 700;
+  }
+
+  /* Container for the three cards */
+  .whyvistara {
+      display: flex;
+      justify-content: space-around;
+      gap: 2rem;
+      flex-wrap: wrap;
+  }
+
+  /* Styling each individual card */
+  .whyvistara div {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      width: 30%;
+      min-width: 280px;
+      transition: transform 0.3s ease-in-out;
+  }
+
+  /* Hover effect for cards */
+  .whyvistara div:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Title styling */
+  .whyh1 {
+      font-size: 1.8rem;
+      color: #444;
+      margin-bottom: 1.5rem;
+  }
+
+  /* Paragraph styling */
+  .whyvistara p {
+      font-size: 1rem;
+      color: #666;
+      line-height: 1.6;
+      text-align: justify;
+  }
+
+  /* Elegant, soft colors for each card */
+  .whyvistara div:nth-child(1) {
+      background-color: #f0f4f8; /* Soft light blue */
+      color: #333;
+  }
+
+  .whyvistara div:nth-child(2) {
+      background-color: #eaf7ea; /* Soft light green */
+      color: #333;
+  }
+
+  .whyvistara div:nth-child(3) {
+      background-color: #fef3e6; /* Soft light orange */
+      color: #333;
+  }
+ .faqus{display: flex;}
+
+  .footerimages {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: -8px;
+    padding-top: 30px;
+  }
+
+  .footerimages img {
+    width: 19%;
+    height: 20%;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .footerimages img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  .FAQ {
+    max-width: 80%;
+    margin: 0 auto;
+    padding:6%;
+    background-color:white;
+    border-radius: 8px;
+
+  }
+
+  .FAQ h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  /* Using Flexbox to display FAQ in two columns */
+  .faqs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+  }
+
+  /* Styling for each FAQ item */
+  .faq-item {
+    width: 48%; /* Adjust width to fit 2 columns */
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+  }
+
+  .faq-item:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Title and arrow button styling */
+  .faq-item b {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+  }
+
+  .faq-item b::after {
+    content: '▼';
+    margin-left: 10px;
+    font-size: 1.2rem;
+    color: #007BFF;
+    transition: transform 0.3s ease;
+  }
+
+  /* Rotate arrow when the item is open */
+  .faq-item input[type="checkbox"]:checked + label::after {
+    transform: rotate(180deg);
+  }
+
+  .faq-item input[type="checkbox"] {
+    display: none;
+  }
+
+  /* Answer paragraph styling */
+  .faq-item p {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #555;
+    display: none;
+  }
+
+  /* Show the answer when checked */
+  .faq-item input[type="checkbox"]:checked ~ p {
+    display: block;
+  }
+  .footer {
+    background-color: #111;
+    color: #f5f5f5;
+    padding: 40px 20px 20px;
+    font-family: 'Segoe UI', sans-serif;
+    margin-top: 8px;
+  }
+
+  .footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .footer-section h3 {
+    margin-bottom: 15px;
+    color: #ffbb33;
+  }
+
+  .footer-section h4 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #ffbb33;
+  }
+
+  .footer-section p, 
+  .footer-section ul {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-section ul li {
+    margin-bottom: 8px;
+  }
+
+  .footer-section a {
+    color: #f5f5f5;
+    text-decoration: none;
+  }
+
+  .footer-section a:hover {
+    text-decoration: underline;
+    color: #ffbb33;
+  }
+
+  .social-links a {
+    display: inline-block;
+    margin-right: 10px;
+    color: #f5f5f5;
+    font-size: 14px;
+  }
+
+  .social-links a:hover {
+    color: #ffbb33;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    border-top: 1px solid #333;
+    margin-top: 30px;
+    padding-top: 15px;
+    font-size: 13px;
+    color: #aaa;
+  }
+
+  .footer-bottom em {
+    display: block;
+    margin-top: 5px;
+    color: #ffbb33;
+  }
+
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="#">Vistara Bookings</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav gap-3">
+        <li class="nav-item">
+          <a class="nav-link" href="adminsignup.html">ServiceHub</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="signup.html">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Customer Care</a>
+         
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+<!-- Carousel -->
+<div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="carousel21.jpg" class="d-block w-100" alt="Slide 1" />
+    </div>
+    <div class="carousel-item">
+      <img src="carousel61.jpeg" class="d-block w-100" alt="Slide 2" />
+    </div>
+    <div class="carousel-item">
+      <img src="courosel2.jpg" class="d-block w-100" alt="Slide 3" />
+    </div>
+    <div class="carousel-item">
+      <img src="courosel5.avif" class="d-block w-100" alt="Slide 5" />
+    </div>
+    <div class="carousel-item">
+      <img src="courosel.jpg" class="d-block w-100" alt="Slide 6" />
+    </div>
+  </div>
+
+  <!-- Carousel controls -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+
+       <div class="aboutbanquethall">
+          <div class="banquethall">
+            <img src="banquethall1.jpg" alt="">
+         <div>
+            <h1>Celebrate Grand Moments in <br>&nbsp;&nbsp;&nbsp; Stunning Banquet Halls</h1>
+             <p>At Vistara Bookings, we bring you a curated selection of premium banquet and convention halls designed for unforgettable celebrations. Whether you're planning a wedding, reception, birthday, or corporate event, our venues offer the perfect blend of elegance, space, and service to make your occasion extraordinary.
+               With modern amenities, spacious seating, and customizable décor options, our partnered banquet halls are built to host your special day in style. Experience hassle-free bookings, verified venues, and a support team dedicated to turning your vision into reality.
+              </p>
+          </div>
+        </div>
+      </div>
+    <div class="aboutfarmhouse">
+        <div class="farmhouse">
+          
+        <div>
+          <h1>Celebrate Grand Moments in <br>&nbsp;&nbsp;&nbsp; Stunning Banquet Halls</h1>
+            <p>At Vistara Bookings, we bring you a curated selection of premium banquet and convention halls designed for unforgettable celebrations. Whether you're planning a wedding, reception, birthday, or corporate event, our venues offer the perfect blend of elegance, space, and service to make your occasion extraordinary.
+             With modern amenities, spacious seating, and customizable décor options, our partnered banquet halls are built to host your special day in style. Experience hassle-free bookings, verified venues, and a support team dedicated to turning your vision into reality.
+            </p>
+        </div>
+        <img src="farmhouse1.avif" alt="">
+      </div>
+    </div>
+
+   <!-- Why Choose Vistara Section -->
+   <div class="whyvistara-section">
+    <h1 class="whyvistara-heading">Why Vistara is the Right Choice for Your Event</h1>
+
+    <div class="whyvistara">
+        <div>
+            <h1 class="whyh1">Time-Saving and Effortless Booking</h1>
+            <p>At Vistara Bookings, we understand that time is valuable. Our streamlined booking process allows you to easily find and book the perfect venue for your event in just a few clicks. Whether you’re planning a wedding, corporate event, or any special occasion, we’ve made it hassle-free. Skip the endless search and coordination with multiple venues – everything you need is right at your fingertips.</p>
+        </div>
+        <div>
+            <h1 class="whyh1">Verified and Trusted Venues</h1>
+            <p>When you choose Vistara Bookings, you’re selecting from a curated list of verified, high-quality venues. Each venue goes through a rigorous vetting process to ensure it meets our high standards for service, ambiance, and facilities. You can trust that your event will be hosted at a location that is both beautiful and reliable, with all necessary amenities to support a smooth event experience.</p>
+        </div>
+        <div>
+            <h1 class="whyh1">Personalized Customer Support</h1>
+            <p>Our dedicated support team is here to guide you every step of the way. Whether you need advice on which venue suits your event best or need help customizing the space to fit your vision, we offer personalized assistance to make sure everything goes perfectly. We’re not just booking a venue – we’re helping bring your event dreams to life with expert advice and support.</p>
+        </div>
+    </div>
+</div>
+   
+ <!-- FAQ Section -->
+
+ <div class="FAQ">
+  <h1>Most Frequently Asked Questions</h1>
+  <div class="faqs">
+    <div class="faq-item">
+      <input type="checkbox" id="faq1">
+      <label for="faq1">
+        <b>1. How do I book a venue through your platform?</b>
+      </label>
+      <p>You can browse venues by location and event type, check availability, and click the "Book Now" button. Fill in your details and our team will confirm your booking.</p>
+    </div>
+    <div class="faq-item">
+      <input type="checkbox" id="faq2">
+      <label for="faq2">
+        <b>2. Do you provide decoration and event setup services too?</b>
+      </label>
+      <p>Yes! We offer decoration, lighting, stage setup, sound systems, and more. You can choose a full event package or customize it based on your needs.</p>
+    </div>
+    <div class="faq-item">
+      <input type="checkbox" id="faq3">
+      <label for="faq3">
+        <b>3. Can I visit the venue before booking?</b>
+      </label>
+      <p>Absolutely. Once you shortlist a venue, you can schedule a visit through our platform or contact our support team to assist you.</p>
+    </div>
+    <div class="faq-item">
+      <input type="checkbox" id="faq4">
+      <label for="faq4">
+        <b>4. Is there any cancellation policy?</b>
+      </label>
+      <p>Yes, each venue has its own cancellation policy. You can find the cancellation terms on the venue’s details page before booking.</p>
+    </div>
+    <div class="faq-item">
+      <input type="checkbox" id="faq5">
+      <label for="faq5">
+        <b>5. Do you offer catering services as well?</b>
+      </label>
+      <p>Yes, we collaborate with trusted catering partners. You can add catering to your package while booking or request it separately.</p>
+    </div>
+    <div class="faq-item">
+      <input type="checkbox" id="faq6">
+      <label for="faq6">
+        <b>6. Can I host small events like birthday parties or anniversaries?</b>
+      </label>
+      <p>Definitely! We have spaces perfect for birthdays, anniversaries, baby showers, and more — both small and large scale.</p>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Footer Images Section -->
+<div class="footerimages">
+  <img src="footer1.jpg" alt="footer image 1">
+  <img src="ffooter4.avif" alt="footer image 2">
+  <img src="footer2.webp" alt="footer image 3">
+  <img src="footer0.jpg" alt="footer image 4">
+  <img src="footer3.jpeg" alt="footer image 5">
+</div>
+
+
+<footer class="footer">
+  <div class="footer-container">
+    
+    <!-- About -->
+    <div class="footer-section">
+      <h3>About Vistara Bookings</h3>
+      <p>
+        Vistara Bookings is your trusted event booking platform for banquet halls,
+        farmhouses, and customized setups for weddings, birthdays, anniversaries, and more.
+        We make event planning easy, affordable, and memorable.
+      </p>
+    </div>
+
+    <!-- Features -->
+    <div class="footer-section">
+      <h3>Features</h3>
+      <ul>
+        <li>Easy Online Booking</li>
+        <li>Verified Venues</li>
+        <li>Custom Event Decor</li>
+        <li>Transparent Pricing</li>
+        <li>24/7 Customer Support</li>
+        <li>WhatsApp Booking</li>
+        <li>Instant Confirmations</li>
+      </ul>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Testimonials</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms & Conditions</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact & Social -->
+    <div class="footer-section">
+      <h3>Contact Us</h3>
+      <p>Email: support@vistarabookings.com</p>
+      <p>Phone: +91 98765 43210</p>
+      <p>Shadnagar, Telangana, India</p>
+      <p>Mon–Sat | 9:00 AM – 8:00 PM</p>
+
+      <h4>Follow Us</h4>
+      <div class="social-links">
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="#">X (Twitter)</a>
+        <a href="#">WhatsApp</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Text -->
+  <div class="footer-bottom">
+    <p>© 2025 Vistara Bookings. All Rights Reserved. Designed with ❤️ in Telangana.</p>
+    <p><em>“Celebrations Made Simple. Memories Made Grand.”</em></p>
+  </div>
+</footer>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  onAuthStateChanged(auth, user => {
+    const loginLink = document.getElementById("loginLink");
+    if (user) {
+        loginLink.innerText = "Profile";
+        loginLink.setAttribute("href", "profile.html");
+        document.getElementById("logoutLink").style.display = 'inline-block';
+        console.log(user.email);
+
+        let arr=[]
+        let obj={name:user.email}
+        arr.push(obj)
+        const local=localStorage.setItem("Profiles",JSON.stringify(arr))
+console.log(local);
+
+
+
+    } else {
+        loginLink.innerText = "Login";
+        loginLink.setAttribute("href", "Register.html");
+        document.getElementById("logoutLink").style.display = 'none';
+    }
+});
+
+//
+</script>
+
+</body>
+</html>

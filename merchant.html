@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vistara Bookings</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* All styles same as your code */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #1f1c2c, #928dab);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      color: #fff;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3rem;
+      color: #ffffff;
+      margin-bottom: 40px;
+      text-shadow: 2px 2px 10px #00000055;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      backdrop-filter: blur(14px);
+      padding: 30px 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    h2 {
+      font-size: 1.7rem;
+      margin-bottom: 20px;
+      color: #ffdd59;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="file"] {
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      margin-bottom: 15px;
+      background: #f0f0f0;
+      font-size: 1rem;
+      color: #333;
+    }
+
+    input::placeholder {
+      color: #888;
+    }
+
+    .btn {
+      background: linear-gradient(to right, #00b894, #00cec9);
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(to right, #00cec9, #00b894);
+      transform: scale(1.02);
+    }
+
+    .btn.delete {
+      background: linear-gradient(to right, #ff6b6b, #d63031);
+    }
+
+    .btn.delete:hover {
+      background: linear-gradient(to right, #d63031, #ff6b6b);
+    }
+
+    .anchortag {
+      text-decoration: none;
+      color: white;
+      display: inline-block;
+      text-align: center;
+      padding: 14px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Vistara Bookings</h1>
+
+    <!-- Register Form -->
+    <div class="card">
+      <h2>Register Your Venue/Farm House</h2>
+      <form id="venueForm">
+        <input type="text" id="username" placeholder="Enter your name">
+        <input type="text" id="venueName" placeholder="Venue/Farm House Name">
+        <input type="text" id="category" placeholder="Category">
+        <input type="url" id="location" placeholder="Venue/Farm House Location">
+        <input type="tel" id="contactNumber" placeholder="Owner Contact Number">
+        <input type="text" id="guestCapacity" placeholder="Guest Capacity">
+        <input type="text" id="totalArea" placeholder="Total Area (in sq.ft)">
+        <input type="text" id="pricePer12hr" placeholder="Price per 12hrs (in ₹)">
+        <input type="file" id="image">
+        <button type="button" id="submitbutton" class="btn">Submit</button>
+      </form>
+    </div>
+
+    <!-- Update Form -->
+    <div class="card">
+      <h2>Update Venue/Farm House</h2>
+      <form id="updateForm">
+        <input type="text" id="updateUsername" placeholder="Enter your  name">
+        <input type="text" id="updateVenueName" placeholder="New Venue/Farm House Name">
+        <input type="url" id="updateLocation" placeholder="New Venue/Farm House Location">
+        <input type="tel" id="updateContactNumber" placeholder="New Contact Number">
+        <input type="text" id="updateGuestCapacity" placeholder="New Guest Capacity">
+        <input type="text" id="updateTotalArea" placeholder="New Total Area">
+        <input type="text" id="updatePricePer12hr" placeholder="New Price per 12hrs">
+        <input type="file" id="updateimage">
+        <button type="button" id="updateButton" class="btn">Update Venue</button>
+      </form>
+    </div>
+
+    <!-- Delete -->
+    <div class="card">
+      <h2>Delete Your Venue/Farm House Details</h2>
+      <input type="text" id="deleteVenue" placeholder="Enter your name">
+      <button type="button" id="deleteButton" class="btn delete">Delete Venue</button>
+    </div>
+
+    <!-- View Data -->
+    <div class="card">
+      <h2>Check Your Data</h2>
+      <a href="fetchmerchanth.html" class="btn anchortag">Click Here</a>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, addDoc, doc, updateDoc, deleteDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD6Pr6JuFpOh4ZPAnvJ5nDFqS24cK91qIw",
+      authDomain: "vistara-bookings.firebaseapp.com",
+      projectId: "vistara-bookings",
+      storageBucket: "vistara-bookings.appspot.com",
+      messagingSenderId: "359187028812",
+      appId: "1:359187028812:web:b6c9e1aaa81be50891cde9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const cloudName = 'dl6ibavyr';  
+    const uploadPreset = 'vistaragrand';  
+
+    async function uploadImageToCloudinary(file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', uploadPreset);
+
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await res.json();
+      return data.secure_url;
+    }
+
+    document.getElementById("submitbutton").addEventListener("click", async () => {
+      const username = document.getElementById("username").value;
+      const venueName = document.getElementById("venueName").value;
+      const category = document.getElementById("category").value;
+      const location = document.getElementById("location").value;
+      const contactNumber = document.getElementById("contactNumber").value;
+      const guestCapacity = document.getElementById("guestCapacity").value;
+      const totalArea = document.getElementById("totalArea").value;
+      const pricePer12hr = document.getElementById("pricePer12hr").value;
+      const imageFile = document.getElementById("image").files[0];
+
+      if (!username || !venueName || !category || !location || !contactNumber || !guestCapacity || !totalArea || !pricePer12hr || !imageFile) {
+        alert("Please fill in all fields and upload an image.");
+        return;
+      }
+
+      try {
+        const imageUrl = await uploadImageToCloudinary(imageFile);
+
+        await addDoc(collection(db, "venues"), {
+          username,
+          venueName,
+          category,
+          location,
+          contactNumber,
+          guestCapacity: parseInt(guestCapacity),
+          totalArea: parseInt(totalArea),
+          pricePer12hr: parseFloat(pricePer12hr),
+          image: imageUrl
+        });
+
+ localStorage.setItem("submittedUsername", username); // Store username
+alert("Venue registered successfully!");
+document.getElementById("venueForm").reset();
+window.location.href = "fetchmerchant.html";
+      } catch (error) {
+        console.error("Error adding venue:", error);
+        alert("Failed to register venue.");
+      }
+    });
+
+    document.getElementById("updateButton").addEventListener("click", async () => {
+      const username = document.getElementById("updateUsername").value.trim();
+      if (!username) {
+        alert("Please enter a username to update.");
+        return;
+      }
+
+      const venuesRef = collection(db, "venues");
+      const q = query(venuesRef, where("username", "==", username));
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        alert("No venue found with this username.");
+        return;
+      }
+
+      const docRef = doc(db, "venues", snapshot.docs[0].id);
+
+      const updatedData = {};
+      const venueName = document.getElementById("updateVenueName").value.trim();
+      const location = document.getElementById("updateLocation").value.trim();
+      const contactNumber = document.getElementById("updateContactNumber").value.trim();
+      const guestCapacity = document.getElementById("updateGuestCapacity").value;
+      const totalArea = document.getElementById("updateTotalArea").value;
+      const pricePer12hr = document.getElementById("updatePricePer12hr").value;
+      const imageFile = document.getElementById("updateimage").files[0];
+
+      if (venueName) updatedData.venueName = venueName;
+      if (location) updatedData.location = location;
+      if (contactNumber) updatedData.contactNumber = contactNumber;
+      if (guestCapacity) updatedData.guestCapacity = parseInt(guestCapacity);
+      if (totalArea) updatedData.totalArea = parseInt(totalArea);
+      if (pricePer12hr) updatedData.pricePer12hr = parseFloat(pricePer12hr);
+      if (imageFile) updatedData.image = await uploadImageToCloudinary(imageFile);
+
+      if (Object.keys(updatedData).length === 0) {
+        alert("Please enter at least one field to update.");
+        return;
+      }
+
+      try {
+        await updateDoc(docRef, updatedData);
+        alert("Venue updated successfully!");
+        document.getElementById("updateForm").reset();
+      } catch (error) {
+        console.error("Error updating venue:", error);
+        alert("Failed to update venue.");
+      }
+    });
+
+    document.getElementById("deleteButton").addEventListener("click", async () => {
+      const username = document.getElementById("deleteVenue").value.trim();
+
+      if (!username) {
+        alert("Please enter your name.");
+        return;
+      }
+
+      try {
+        const venuesRef = collection(db, "venues");
+        const q = query(venuesRef, where("username", "==", username));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          alert("No venue found with this username.");
+          return;
+        }
+
+        const deletePromises = snapshot.docs.map((docSnap) =>
+          deleteDoc(doc(db, "venues", docSnap.id))
+        );
+
+        await Promise.all(deletePromises);
+        alert("Venue(s) deleted successfully!");
+        document.getElementById("deleteVenue").value = "";
+      } catch (error) {
+        console.error("Error deleting venue:", error);
+        alert("Failed to delete venue.");
+      }
+    });
+  </script>
+</body>
+</html>

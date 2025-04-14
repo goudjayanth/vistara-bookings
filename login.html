@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Vistara Bookings</title>
+  <link href="https://fonts.googleapis.com/css2?family=Grey+Qo&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+      background-image: url('farmhouse1.jpeg');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      position: relative;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0);
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 450px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      color: white;
+      text-align: center;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    .heading {
+      font-family: 'Grey Qo', cursive;
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .quote {
+      font-size: 16px;
+      margin-bottom: 30px;
+      color: #f0f0f0;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    input::placeholder {
+      color: #ddd;
+    }
+
+    input:focus {
+      background: rgba(255, 255, 255, 0.3);
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #00b09b, #96c93d);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #008a7a, #7ebc28);
+    }
+
+    .link-group {
+      margin-top: 15px;
+      font-size: 14px;
+      color: white;
+    }
+
+    .link-group a {
+      color: #00f0ff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .link-group a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="overlay"></div>
+    <div class="content">
+      <div class="heading">Vistara Bookings</div>
+      <div class="quote">Where Every Occasion Finds Its Perfect Space!</div>
+
+      <input id="email" type="email" placeholder="Enter your Email" />
+      <input id="password" type="password" placeholder="Enter your Password" />
+      <button id="loginBtn">Log In</button>
+
+      <div class="link-group">
+        <p><a href="#">Forgot Password?</a></p>
+        <p>No account? <a href="signup.html">Sign Up</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBdh47m1YFrdgBx3CrMdZGXZC8eCUihWZw",
+      authDomain: "projectlogin-e690a.firebaseapp.com",
+      projectId: "projectlogin-e690a",
+      storageBucket: "projectlogin-e690a.appspot.com",
+      messagingSenderId: "778892825536",
+      appId: "1:778892825536:web:728526e3ba0d5284c96e25"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const loginBtn = document.getElementById("loginBtn");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+
+    loginBtn.addEventListener("click", async () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        alert("Please enter both email and password.");
+        return;
+      }
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        console.log("User logged in:", userCredential.user);
+        alert("Login successful!");
+         window.location.href = "fetchmerchanth.html"; // optional redirect
+      } catch (error) {
+        console.error("Login error:", error.code, error.message);
+        alert(`Login failed: ${error.message}`);
+      }
+    });
+  </script>
+</body>
+</html>

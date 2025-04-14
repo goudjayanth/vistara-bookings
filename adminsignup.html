@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auth Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #ffffff10;
+      padding: 40px 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 10px;
+     background-color:#ffffff30;
+      color: #fff;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      background-color: #ffffff50;
+    }
+    input::placeholder {
+        color: #e0e0e0;
+        opacity: 1; /* make sure it's fully visible */
+      }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #00c6ff;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0072ff;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+    p {
+      color: #ddd;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 15px;
+    }
+    
+    p a {
+      color: #00c6ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    p a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="section">
+      <h2>Sign Up</h2>
+      <input type="email" id="signupEmail" placeholder="Email" />
+      <input type="password" id="signupPassword" placeholder="Password" />
+      <button id="btn1">Sign Up</button>
+      <p>Alredy have an account ? <a href="adminlogin.html" >Login</a></p>
+    </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC6s1WUVVA6QxrvE1Ni3pApzNw-5oDcdo0",
+      authDomain: "adminsignup-899f1.firebaseapp.com",
+      projectId: "adminsignup-899f1",
+      storageBucket: "adminsignup-899f1.firebasestorage.app",
+      messagingSenderId: "561818564365",
+      appId: "1:561818564365:web:c2f9509c4006365fdce244"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById("btn1").addEventListener("click", function () {
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPassword").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("User signed up:", user);
+          alert("Signup successful!");
+          window.location.href="adminlogin.html";
+        })
+        .catch((error) => {
+          console.error("Signup error", error.code, error.message);
+          alert(`Signup failed: ${error.message}`);
+        });
+    });
+  </script>
+</body>
+</html>

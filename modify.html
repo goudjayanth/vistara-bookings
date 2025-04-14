@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>View Registered Venues</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      padding: 40px 20px;
+      min-height: 100vh;
+      background: #f4f4f4;
+      color: #000;
+    }
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+  
+      .navbar .logo h1 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #00b894;
+        margin: 0;
+      }
+  
+      .nav-links {
+        display: flex;
+        gap: 25px;
+      }
+  
+      .nav-links a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+        position: relative;
+      }
+  
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        background-color: #00b894;
+        left: 0;
+        bottom: -4px;
+        transition: 0.3s;
+      }
+  
+      .nav-links a:hover {
+        color: #00b894;
+      }
+  
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+ 
+  
+   .loading {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-top: 50px;
+    }
+
+    .venues-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .venue-card {
+      width: calc(33.333% - 20px);
+      max-width: 350px;
+      min-width: 280px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 15px;
+      transition: transform 0.3s ease;
+      flex-grow: 1;
+    }
+
+    .venue-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .venue-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .venue-card h3 {
+      font-size: 1.5rem;
+    }
+
+    .venue-card p {
+      margin: 6px 0;
+      font-size: 0.95rem;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background: #00b894;
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .back-btn:hover {
+      background: #00cec9;
+    }
+
+    .category-title {
+      font-size: 1.8rem;
+      margin-top: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+ <div class="navbar">
+  <div class="logo">
+    <h1>Vistara</h1>
+  </div>
+  <div class="nav-links">
+    <a href="#">About Us</a>
+    <a href="#">Features</a>
+    <a href="#">Contact</a>
+    <a href="#">Logout</a>
+  </div>
+</div>
+
+
+  <div id="loading" class="loading">Loading...</div>
+
+  <div id="conventionVenues">
+    <h2 class="category-title">Convention & Banquet Halls</h2>
+    <div class="venues-container" id="conventionContainer"></div>
+  </div>
+
+  <div id="farmHouseVenues">
+    <h2 class="category-title">Farm Houses</h2>
+    <div class="venues-container" id="farmHouseContainer"></div>
+  </div>
+
+  <div style="text-align: center;">
+    <a href="index.html" class="back-btn">Back to Home</a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyD6Pr6JuFpOh4ZPAnvJ5nDFqS24cK91qIw",
+      authDomain: "vistara-bookings.firebaseapp.com",
+      projectId: "vistara-bookings",
+      storageBucket: "vistara-bookings.appspot.com",
+      messagingSenderId: "359187028812",
+      appId: "1:359187028812:web:b6c9e1aaa81be50891cde9"
+    };
+  
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+  
+    const conventionContainer = document.getElementById("conventionContainer");
+    const farmHouseContainer = document.getElementById("farmHouseContainer");
+    const loadingMessage = document.getElementById("loading");
+
+    function createVenueCard(data) {
+      const card = document.createElement("div");
+      card.className = "venue-card";
+      card.innerHTML = `
+        <img src="${data.image}" alt="${data.venueName}">
+        <h3>${data.venueName}</h3>
+        <p><strong>Owner:</strong> ${data.username}</p>
+        <p><strong>Category:</strong> ${data.category}</p>
+        <p><strong>Location:</strong> ${data.location}</p>
+        <p><strong>Contact:</strong> ${data.contactNumber}</p>
+        <p><strong>Capacity:</strong> ${data.guestCapacity} guests</p>
+        <p><strong>Area:</strong> ${data.totalArea} sq.ft</p>
+        <p><strong>Price (12 hrs):</strong> ₹${data.pricePer12hr}</p>
+      `;
+      return card;
+    }
+  
+    async function fetchVenues() {
+      const snapshot = await getDocs(collection(db, "venues"));
+  
+      const conventionVenues = [];
+      const farmHouseVenues = [];
+  
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        const category = data.category?.toLowerCase() || "";
+        if (category.includes("convention") || category.includes("banquet")) {
+          conventionVenues.push(data);
+        } else if (category.includes("farm")) {
+          farmHouseVenues.push(data);
+        }
+      });
+  
+      // Display Convention/Banquet Halls
+      conventionVenues.forEach((venue) => {
+        const card = createVenueCard(venue);
+        conventionContainer.appendChild(card);
+      });
+  
+      // Display Farm Houses
+      farmHouseVenues.forEach((venue) => {
+        const card = createVenueCard(venue);
+        farmHouseContainer.appendChild(card);
+      });
+  
+      // Hide loading message and show content
+      loadingMessage.style.display = 'none';
+    }
+  
+    fetchVenues();
+  </script>
+</body>
+</html>

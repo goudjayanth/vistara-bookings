@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            display: flex;
+            gap:60px;
+            
+        }
+        .div1{
+            background-color:white;
+            padding: 5%;
+            border-radius: 5%;
+            box-shadow:  rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px ;
+        }
+        .div2{
+            background-color: white;
+            padding: 5%;
+            border-radius: 5%;
+            box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+        }
+        .input{
+            width: 19vw;
+            height: 5vh;
+            border-radius: 0.5rem;
+        }
+        .div3{
+            background-color: white;
+            padding: 6%;
+            margin-top: 12%;
+            border-radius: 5%;
+            height: 15vh;
+            align-items: center;
+            box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+        }
+        .delete{
+            width: 19vw;
+            height: 5vh;
+            border-radius: 0.5rem;
+        }
+        .button{
+            width: 13vw;
+            margin-left: 2.5rem;
+            height: 5vh;
+            border-radius: 0.5rem;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+     <div class="container">
+    <div class="div1">
+     <input type="text" placeholder="enetr your business" name="" id="">   
+    <input type="text" placeholder="enter venu name" id="venu name"   class="input"><br><br>
+    <input type="text" placeholder="entaer venu location" id="venu location" class="input"><br><br>
+    <input type="text" placeholder="enter contact number" id="contact number" class="input"><br><br>
+    <input type="text" placeholder=" enter guest capacity" id="guest capacity" class="input"><br><br>
+    <input type="text" placeholder="total area in sq.ft" id="area" class="input"><br><br>
+    <input type="text" placeholder="price per 12hrs" id="price" class="input"><br><br>
+    <button onclick="postdata()" class="button">submit</button>
+    </div>
+    <div class="div2">
+    <input type="text" placeholder="enter id" id="venue-id"  class="input"><br><br>
+    <input type="text" placeholder="enter venu name" id="venu name1"  class="input"><br><br>
+    <input type="text" placeholder="entaer venu location" id="venu location1"  class="input"><br><br>
+    <input type="text" placeholder="enter contact number" id="contact number1"  class="input"><br><br>
+    <input type="text" placeholder=" enter guest capacity" id="guest capacity1"  class="input"><br><br>
+    <input type="text" placeholder="total area in sq.ft" id="area1"  class="input"><br><br>
+    <input type="text" placeholder="price per 12hrs" id="price1"  class="input"><br><br>
+    <button onclick="patchdata()" class="button"> submit</button>
+    </div>
+
+    <div class="div3">
+        <input type="text" placeholder="enter id" class="delete" name="" id="id"><br><br>
+        <button onclick="deletedata()" class="button">delete</button>
+    </div>
+    </div> 
+    <script>
+        async function project(){
+            let res=await fetch("http://localhost:3000/posts")
+             data= await res.json()
+             console.log(data)
+             let container=document.createElement("div")
+             container.classList.add("container1")
+             data.forEach((val)=>{
+                let div=document.createElement("div")
+                div.classList.add("div")
+                let child1=document.createElement("h3")
+                let child2=document.createElement("h3")
+                let child3=document.createElement("h3")
+                let child4=document.createElement("h3")
+                let child5=document.createElement("h3")
+                let child6=document.createElement("h3")
+                let child7=document.createElement("h3")
+
+
+    
+                child1.innerText="ID                   :"+val.id 
+                child2.innerText="Venue name           :"+val.venuname
+                child3.innerText="Venue Location       :"+val.Location
+                child4.innerText="Contact number       : "+val.contact
+                child5.innerText="Guest capacity       : "+val.guestcapacity
+                child6.innerText="Total Area in sq.ft  : "+val.totalarea
+                child7.innerText="Price per 12hrs      : "+val.price
+              
+                div.append(child1,child2,child3,child4,child5,child6,child7)
+                container.append(div)
+
+
+             })
+             document.body.append(container)
+        }
+        project()
+
+        async function postdata(){
+            let btn1=document.getElementById("venu name").value
+            let btn2=document.getElementById("venu location").value
+            let btn3=document.getElementById("contact number").value
+            let btn4=document.getElementById("guest capacity").value
+            let btn5=document.getElementById("area").value
+            let btn6=document.getElementById("price").value
+            
+    
+            let obj={
+                venuname:btn1,
+                Location:btn2,
+                contact:btn3,
+                guestcapacity:btn4,
+                totalarea:btn5,
+                price:btn6
+            }
+        
+           let data=await fetch(`http://localhost:3000/posts`,{
+               method:"POST",
+               headers:{"Content-Type":"application/json"},
+               body:JSON.stringify(obj)
+           })
+    
+    
+        }
+
+        async function patchdata(){
+            const id = document.getElementById("venue-id").value;
+            let btn1=document.getElementById("venu name1").value  
+            let btn2=document.getElementById("venu location1").value
+            let btn3=document.getElementById("contact number1").value
+            let btn4=document.getElementById("guest capacity1").value
+            let btn5=document.getElementById("area1").value
+            let btn6=document.getElementById("price1").value
+            
+    
+            let obj={
+                venuname:btn1,
+                Location:btn2,
+                contact:btn3,
+                guestcapacity:btn4,
+                totalarea:btn5,
+                price:btn6
+            }
+            
+            
+           let data=await fetch(`http://localhost:3000/posts/${id}`,{
+               method:"PATCH",
+               headers:{"Content-Type":"application/json"},
+               body:JSON.stringify(obj)
+           })
+    
+    
+        }
+
+        async function deletedata(){
+            const btn1=document.getElementById("id").value
+            
+            
+            let data=await fetch(`http://localhost:3000/posts/${btn1}`,{
+                method:"DELETE"
+    
+            })
+        }
+
+       
+    
+
+    </script>
+</body>
+</html>
