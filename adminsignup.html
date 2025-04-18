@@ -107,38 +107,57 @@
       <p>Alredy have an account ? <a href="adminlogin.html" >Login</a></p>
     </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC6s1WUVVA6QxrvE1Ni3pApzNw-5oDcdo0",
-      authDomain: "adminsignup-899f1.firebaseapp.com",
-      projectId: "adminsignup-899f1",
-      storageBucket: "adminsignup-899f1.firebasestorage.app",
-      messagingSenderId: "561818564365",
-      appId: "1:561818564365:web:c2f9509c4006365fdce244"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    document.getElementById("btn1").addEventListener("click", function () {
-      const email = document.getElementById("signupEmail").value;
-      const password = document.getElementById("signupPassword").value;
-
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          console.log("User signed up:", user);
-          alert("Signup successful!");
-          window.location.href="adminlogin.html";
-        })
-        .catch((error) => {
-          console.error("Signup error", error.code, error.message);
-          alert(`Signup failed: ${error.message}`);
-        });
-    });
-  </script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        onAuthStateChanged
+      } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    
+      const firebaseConfig = {
+        apiKey: "AIzaSyC6s1WUVVA6QxrvE1Ni3pApzNw-5oDcdo0",
+        authDomain: "adminsignup-899f1.firebaseapp.com",
+        projectId: "adminsignup-899f1",
+        storageBucket: "adminsignup-899f1.firebasestorage.app",
+        messagingSenderId: "561818564365",
+        appId: "1:561818564365:web:c2f9509c4006365fdce244"
+      };
+    
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+    
+      // ✅ Redirect if already signed in
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is already signed in, redirect to admin main/dashboard page
+          window.location.href = "merchant.html"; // change this to your actual main page
+        }
+      });
+    
+      // ✅ Signup logic
+      document.getElementById("btn1").addEventListener("click", function () {
+        const email = document.getElementById("signupEmail").value;
+        const password = document.getElementById("signupPassword").value;
+    
+        if (!email || !password) {
+          alert("Please enter both email and password.");
+          return;
+        }
+    
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            console.log("User signed up:", user);
+            alert("Signup successful!");
+            window.location.href = "adminlogin.html"; // direct login after signup
+          })
+          .catch((error) => {
+            console.error("Signup error", error.code, error.message);
+            alert(`Signup failed: ${error.message}`);
+          });
+      });
+    </script>
+    
 </body>
 </html>

@@ -176,15 +176,23 @@
     <!-- View Data -->
     <div class="card">
       <h2>Check Your Data</h2>
-      <a href="fetchmerchanth.html" class="btn anchortag">Click Here</a>
+      <button class="btn" id="viewDataBtn">Click Here</button>
     </div>
   </div>
-
-  <!-- Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getFirestore, addDoc, doc, updateDoc, deleteDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-
+    import {
+      getFirestore,
+      addDoc,
+      doc,
+      updateDoc,
+      deleteDoc,
+      collection,
+      getDocs,
+      query,
+      where
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+  
     const firebaseConfig = {
       apiKey: "AIzaSyD6Pr6JuFpOh4ZPAnvJ5nDFqS24cK91qIw",
       authDomain: "vistara-bookings.firebaseapp.com",
@@ -193,27 +201,27 @@
       messagingSenderId: "359187028812",
       appId: "1:359187028812:web:b6c9e1aaa81be50891cde9"
     };
-
+  
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
-    const cloudName = 'dl6ibavyr';  
-    const uploadPreset = 'vistaragrand';  
-
+  
+    const cloudName = 'dl6ibavyr';
+    const uploadPreset = 'vistaragrand';
+  
     async function uploadImageToCloudinary(file) {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', uploadPreset);
-
+  
       const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
         method: 'POST',
         body: formData
       });
-
+  
       const data = await res.json();
       return data.secure_url;
     }
-
+  
     document.getElementById("submitbutton").addEventListener("click", async () => {
       const username = document.getElementById("username").value;
       const venueName = document.getElementById("venueName").value;
@@ -224,77 +232,78 @@
       const totalArea = document.getElementById("totalArea").value;
       const pricePer12hr = document.getElementById("pricePer12hr").value;
       const imageFile = document.getElementById("image").files[0];
-
+  
       if (!username || !venueName || !category || !location || !contactNumber || !guestCapacity || !totalArea || !pricePer12hr || !imageFile) {
         alert("Please fill in all fields and upload an image.");
         return;
       }
-
+  
       try {
         const imageUrl = await uploadImageToCloudinary(imageFile);
-
+  
         await addDoc(collection(db, "venues"), {
           username,
           venueName,
           category,
           location,
           contactNumber,
-          guestCapacity: parseInt(guestCapacity),
-          totalArea: parseInt(totalArea),
-          pricePer12hr: parseFloat(pricePer12hr),
+          guestCapacity,        // Stored as string
+          totalArea,            // Stored as string
+          pricePer12hr,         // Stored as string
           image: imageUrl
         });
-
- localStorage.setItem("submittedUsername", username); // Store username
-alert("Venue registered successfully!");
-document.getElementById("venueForm").reset();
-window.location.href = "fetchmerchant.html";
+  
+        localStorage.setItem("submittedUsername", username);
+        alert("Venue registered successfully!");
+        document.getElementById("venueForm").reset();
+        window.location.href = "index.html";
       } catch (error) {
         console.error("Error adding venue:", error);
         alert("Failed to register venue.");
       }
     });
-
+  
+    // Update
     document.getElementById("updateButton").addEventListener("click", async () => {
       const username = document.getElementById("updateUsername").value.trim();
       if (!username) {
         alert("Please enter a username to update.");
         return;
       }
-
+  
       const venuesRef = collection(db, "venues");
       const q = query(venuesRef, where("username", "==", username));
       const snapshot = await getDocs(q);
-
+  
       if (snapshot.empty) {
         alert("No venue found with this username.");
         return;
       }
-
+  
       const docRef = doc(db, "venues", snapshot.docs[0].id);
-
+  
       const updatedData = {};
       const venueName = document.getElementById("updateVenueName").value.trim();
       const location = document.getElementById("updateLocation").value.trim();
       const contactNumber = document.getElementById("updateContactNumber").value.trim();
-      const guestCapacity = document.getElementById("updateGuestCapacity").value;
-      const totalArea = document.getElementById("updateTotalArea").value;
-      const pricePer12hr = document.getElementById("updatePricePer12hr").value;
+      const guestCapacity = document.getElementById("updateGuestCapacity").value.trim();
+      const totalArea = document.getElementById("updateTotalArea").value.trim();
+      const pricePer12hr = document.getElementById("updatePricePer12hr").value.trim();
       const imageFile = document.getElementById("updateimage").files[0];
-
+  
       if (venueName) updatedData.venueName = venueName;
       if (location) updatedData.location = location;
       if (contactNumber) updatedData.contactNumber = contactNumber;
-      if (guestCapacity) updatedData.guestCapacity = parseInt(guestCapacity);
-      if (totalArea) updatedData.totalArea = parseInt(totalArea);
-      if (pricePer12hr) updatedData.pricePer12hr = parseFloat(pricePer12hr);
+      if (guestCapacity) updatedData.guestCapacity = guestCapacity;
+      if (totalArea) updatedData.totalArea = totalArea;
+      if (pricePer12hr) updatedData.pricePer12hr = pricePer12hr;
       if (imageFile) updatedData.image = await uploadImageToCloudinary(imageFile);
-
+  
       if (Object.keys(updatedData).length === 0) {
         alert("Please enter at least one field to update.");
         return;
       }
-
+  
       try {
         await updateDoc(docRef, updatedData);
         alert("Venue updated successfully!");
@@ -304,29 +313,30 @@ window.location.href = "fetchmerchant.html";
         alert("Failed to update venue.");
       }
     });
-
+  
+    // Delete
     document.getElementById("deleteButton").addEventListener("click", async () => {
       const username = document.getElementById("deleteVenue").value.trim();
-
+  
       if (!username) {
         alert("Please enter your name.");
         return;
       }
-
+  
       try {
         const venuesRef = collection(db, "venues");
         const q = query(venuesRef, where("username", "==", username));
         const snapshot = await getDocs(q);
-
+  
         if (snapshot.empty) {
           alert("No venue found with this username.");
           return;
         }
-
+  
         const deletePromises = snapshot.docs.map((docSnap) =>
           deleteDoc(doc(db, "venues", docSnap.id))
         );
-
+  
         await Promise.all(deletePromises);
         alert("Venue(s) deleted successfully!");
         document.getElementById("deleteVenue").value = "";
@@ -335,6 +345,17 @@ window.location.href = "fetchmerchant.html";
         alert("Failed to delete venue.");
       }
     });
+  
+    // View Data
+    document.getElementById("viewDataBtn").addEventListener("click", () => {
+      const username = localStorage.getItem("submittedUsername");
+      if (!username) {
+        alert("No user data found. Please register your venue first.");
+        return;
+      }
+      window.location.href = "checkyourdata.html";
+    });
   </script>
+  
 </body>
 </html>

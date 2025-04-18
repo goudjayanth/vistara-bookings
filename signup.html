@@ -140,8 +140,8 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-
+    import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+  
     const firebaseConfig = {
       apiKey: "AIzaSyBdh47m1YFrdgBx3CrMdZGXZC8eCUihWZw",
       authDomain: "projectlogin-e690a.firebaseapp.com",
@@ -150,47 +150,42 @@
       messagingSenderId: "778892825536",
       appId: "1:778892825536:web:728526e3ba0d5284c96e25"
     };
-
+  
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    onAuthStateChanged(auth, user => {
-      const logoutBtn = document.getElementById("logout");
-
+  
+    // ✅ Check if user is already logged in
+    onAuthStateChanged(auth, (user) => {
       if (user) {
-          // If logged in, redirect to the main page
-          window.location.href = 'mainpage.html'; 
-          console.log("userloged in");
-          
-      } else {
-          console.log("User not logged in");
-      }
-        });
-
-
-
-   const signupBtn = document.getElementById("signupBtn");
+        window.location.href = 'main.html'; // Already signed in, redirect
+      }
+    });
+  
+    const signupBtn = document.getElementById("signupBtn");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
-
+  
     signupBtn.addEventListener("click", async () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value;
-
+  
       if (!email || !password) {
         alert("Please fill in both email and password.");
         return;
       }
-
+  
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         console.log("User created:", userCredential.user);
         alert("Signup successful!");
-        window.location.href = "login.html";
+        window.location.href = "mainpage.html"; // ✅ Redirect to mainpage after signup
       } catch (error) {
         console.error("Signup failed:", error.code, error.message);
         alert(`Signup failed: ${error.message}`);
       }
     });
+  </script>
+  
   </script>
 </body>
 </html>

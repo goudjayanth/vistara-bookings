@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vistara Bookings - FAQs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #2d89e5;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 30px;
+    }
+
+    button a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .faq-container {
+      max-width: 700px;
+      margin: auto;
+      margin-left: 1px;
+    }
+
+    .faq {
+       
+        margin-bottom: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px 20px;
+        cursor: pointer;
+      }
+  
+    .faq h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .faq p {
+      display: none;
+      margin-top: 10px;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .faq.active p {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+
+
+  <div class="faq-container">
+    <div class="faq">
+      <h3>What is Vistara Bookings?</h3>
+      <p>Vistara Bookings is an online platform to list and book venues & farmhouses for weddings, parties, and other special events.</p>
+    </div>
+
+    <div class="faq">
+      <h3>How do I register my venue or farmhouse?</h3>
+      <p>Click on "Service Hub" on the homepage, fill in the form with your venue details, upload images, and submit.</p>
+    </div>
+
+    <div class="faq">
+      <h3>Can I update my venue information after listing?</h3>
+      <p>Yes, you can update or delete your listing at any time through your dashboard.</p>
+    </div>
+
+    <div class="faq">
+      <h3>Is there any fee to register my venue?</h3>
+      <p>Currently, we offer free registrations. Premium features may have a small fee in the future.</p>
+    </div>
+
+    <div class="faq">
+      <h3>How do I book a venue?</h3>
+      <p>Browse the main   section, pick a venue, and click "Book Now" to begin the booking process.</p>
+    </div>
+
+    <div class="faq">
+      <h3>I’m facing issues with my booking or listing. What should I do?</h3>
+      <p>You can contact support at <strong>support@vistarabookings.com</strong> or use the contact form.</p>
+    </div>
+
+    <div class="faq">
+      <h3>Is my data safe on Vistara Bookings?</h3>
+      <p>Yes, we use secure systems and never share your data with third parties without permission.</p>
+    </div>
+  </div>
+  <button><a href="tel:8179538285"><i class="fa-solid fa-phone"></i> Talk to customer</a></button>
+  <script>
+    const faqs = document.querySelectorAll('.faq');
+    faqs.forEach(faq => {
+      faq.addEventListener('click', () => {
+        faq.classList.toggle('active');
+      });
+    });
+  </script>
+
+</body>
+</html>

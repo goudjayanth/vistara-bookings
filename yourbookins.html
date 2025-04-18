@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Bookings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .booking-card {
+      background: white;
+      padding: 20px;
+      margin: 15px auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+    .booking-card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .booking-card p {
+      margin: 6px 0;
+    }
+    .btn1{
+      padding: 12px 25px;
+      background: #00b894;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin-top: 15px;
+      transition: background 0.3s ease;
+      width: 50%;
+      margin-left: 150px;
+    }
+    .a{
+      text-decoration: none;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Your Bookings</h2>
+<div id="bookingList"></div>
+
+
+
+<script>
+  const bookings = JSON.parse(localStorage.getItem("userBookings")) || [];
+  const bookingList = document.getElementById("bookingList");
+
+  if (bookings.length === 0) {
+    bookingList.innerHTML = "<p style='text-align:center;'>No bookings yet.</p>";
+  } else {
+    bookings.forEach((booking) => {
+      const card = document.createElement("div");
+      card.className = "booking-card";
+      card.innerHTML = `
+        <img src="${booking.image}" alt="${booking.venueName}">
+        <h3>${booking.venueName}</h3>
+        <p><strong>Location:</strong> ${booking.location}</p>
+        <p><strong>Contact:</strong> ${booking.contactNumber}</p>
+        <p><strong>Your Name:</strong> ${booking.userName}</p>
+        <p><strong>Mobile:</strong> ${booking.userMobile}</p>
+        <p><strong>Date:</strong> ${booking.eventDate}</p>
+        <p><strong>Advance Paid:</strong> ₹${booking.advancePayment}</p>
+        <button class="btn1"><a href="main.html" class="a">Back</a></button>
+      `;
+      bookingList.appendChild(card);
+    });
+  }
+</script>
+
+</body>
+</html>

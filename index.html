@@ -478,6 +478,121 @@
     margin-top: 5px;
     color: #ffbb33;
   }
+    /* Media Queries for Responsiveness */
+@media (max-width: 992px) {
+  .banquethall,
+  .farmhouse {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .banquethall img,
+  .farmhouse img {
+    width: 95%;
+  
+    margin-bottom: 20px;
+  }
+
+  .banquethall div,
+  .farmhouse div {
+    padding: 0 1rem;
+  }
+
+  .banquethall h1,
+  .farmhouse h1 {
+    font-size: 2rem;
+    margin-left: 0;
+  }
+
+  .banquethall p,
+  .farmhouse p {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .whyvistara {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .whyvistara div {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+
+  .footerimages img {
+    width: 18.2%;
+  }
+
+  .faqs {
+    flex-direction: column;
+  }
+
+  .faq-item {
+    width: 100%;
+  }
+
+  .navbar .container-fluid {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.5rem;
+  }
+
+  .whyvistara-heading {
+    font-size: 2rem;
+  }
+
+  .whyh1 {
+    font-size: 1.4rem;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+  }
+
+  .carousel-item img {
+    height: 60vh;
+  }
+
+}
+
+@media (max-width: 576px) {
+  .banquethall h1,
+  .farmhouse h1 {
+    font-size: 1.6rem;
+  }
+
+  .banquethall p,
+  .farmhouse p,
+  .faq-item p {
+    font-size: 0.95rem;
+  }
+
+  .whyvistara div {
+    width: 100%;
+  }
+
+  .footerimages img {
+    width: 30%;
+  }
+
+  .FAQ h1 {
+    font-size: 1.5rem;
+  }
+
+  .footer {
+    padding: 20px 10px;
+  }
+
+  .footer-bottom {
+    font-size: 12px;
+  }
+}
 
   </style>
 </head>

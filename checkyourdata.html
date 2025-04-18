@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Venue Details</title>
+  
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4fdf4; /* Soft off-white with greenish tint */
+      color: #333; /* Default dark text for contrast */
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+  
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 5px rgba(0, 102, 68, 0.2);
+    }
+  
+    #dataContainer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+    }
+  
+    .card {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      width: 90%;
+      max-width: 400px;
+      border: 1px solid #ccffcc;
+      transition: transform 0.3s ease;
+      text-align: center;
+    }
+  
+    .card:hover {
+      transform: translateY(-5px);
+    }
+  
+    .card h2 {
+      font-size: 1.6rem; 
+      margin-bottom: 12px;
+    }
+  
+    .card p {
+      margin: 6px 0;
+      font-size: 1rem;
+      color: #555; /* Muted dark gray for body text */
+    }
+    
+    img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 12px;
+      margin-top: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+  
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+  
+      .card {
+        width: 100%;
+        padding: 20px;
+      }
+    }
+  </style>
+  
+</head>
+<body>
+  <h1>Your Registered Venue</h1>
+  <div id="dataContainer"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD6Pr6JuFpOh4ZPAnvJ5nDFqS24cK91qIw",
+      authDomain: "vistara-bookings.firebaseapp.com",
+      projectId: "vistara-bookings",
+      storageBucket: "vistara-bookings.appspot.com",
+      messagingSenderId: "359187028812",
+      appId: "1:359187028812:web:b6c9e1aaa81be50891cde9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const username = localStorage.getItem("submittedUsername");
+    const dataContainer = document.getElementById("dataContainer");
+
+    if (!username) {
+      dataContainer.innerHTML = "<p>No user found. Please go back and register.</p>";
+    } else {
+      const venuesRef = collection(db, "venues");
+      const q = query(venuesRef, where("username", "==", username));
+      getDocs(q).then((snapshot) => {
+        if (snapshot.empty) {
+          dataContainer.innerHTML = "<p>No venue data found for your username.</p>";
+        } else {
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            dataContainer.innerHTML += `
+              <div class="card">
+                <h2>${data.venueName}</h2>
+                <p><strong>User NAme:</strong>${data.username}</p>
+                <p><strong>Category:</strong> ${data.category}</p>
+                <p><strong>Location:</strong> ${data.location}</p>
+                <p><strong>Contact:</strong> ${data.contactNumber}</p>
+                <p><strong>Guest Capacity:</strong> ${data.guestCapacity}</p>
+                <p><strong>Total Area:</strong> ${data.totalArea} sq.ft</p>
+                <p><strong>Price (12hrs):</strong> ₹${data.pricePer12hr}</p>
+                <img src="${data.image}" alt="Venue Image"/>
+              </div>
+            `;
+          });
+        }
+      }).catch((error) => {
+        console.error("Error fetching data:", error);
+        dataContainer.innerHTML = "<p>Something went wrong while fetching your data.</p>";
+      });
+    }
+  </script>
+</body>
+</html>
