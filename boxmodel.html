@@ -177,7 +177,7 @@
   function generateCaptcha() {
     const characters = "0123456789ASDFGHJKKLZXCVBNMQWERYIOPabcdefghijklmnopqrstuvwxyz@$";
     let captcha = "";
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 4; i++) {
       captcha += characters[Math.floor(Math.random() * characters.length)];
     }
     currentCaptcha = captcha;

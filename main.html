@@ -441,7 +441,7 @@
       <a href="about.html">About Us</a>
       <a href="yourbookins.html">Your Bookings</a>
       <a href="customersupport.html">Customer Support</a>
-      <a href="index.html"><b>Logout</b></a>
+      <a href="login.html"><b>Logout</b></a>
     </div>
   </div>
   
@@ -453,7 +453,7 @@
     <a href="index.html" class="back-btn">Back to Home</a>
     <div class="search">
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search venues..." />
+        <input type="text" id="searchInput" placeholder="Search venues..." autocomplete="off" />
         <i class="fa-solid fa-search"></i>
       </div>
     </div>
@@ -467,7 +467,7 @@
       <div class="venues-container" id="farmHouseContainer"></div>
     </div>
   </div>
-
+ 
   <div class="modal" id="venueModal">
     <div class="modal-content" id="modalContent"></div>
   </div>
@@ -560,6 +560,18 @@
     }
 
     fetchVenues();
+    const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", () => {
+  const searchTerm = searchInput.value.toLowerCase();
+  const allCards = document.querySelectorAll(".venue-card");
+
+  allCards.forEach((card) => {
+    const text = card.innerText.toLowerCase();
+    const match = text.includes(searchTerm);
+    card.style.display = match ? "block" : "none";
+  });
+});
   </script>
 </body>
-</html>
+</html>    

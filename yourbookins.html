@@ -54,18 +54,22 @@
 <h2>Your Bookings</h2>
 <div id="bookingList"></div>
 
-
-
 <script>
-  const bookings = JSON.parse(localStorage.getItem("userBookings")) || [];
+  let bookings = JSON.parse(localStorage.getItem("userBookings")) || [];
   const bookingList = document.getElementById("bookingList");
 
-  if (bookings.length === 0) {
-    bookingList.innerHTML = "<p style='text-align:center;'>No bookings yet.</p>";
-  } else {
-    bookings.forEach((booking) => {
+  function renderBookings() {
+    bookingList.innerHTML = ""; // Clear existing cards
+
+    if (bookings.length === 0) {
+      bookingList.innerHTML = "<p style='text-align:center;'>No bookings yet.</p>";
+      return;
+    }
+
+    bookings.forEach((booking, index) => {
       const card = document.createElement("div");
       card.className = "booking-card";
+
       card.innerHTML = `
         <img src="${booking.image}" alt="${booking.venueName}">
         <h3>${booking.venueName}</h3>
@@ -76,11 +80,23 @@
         <p><strong>Date:</strong> ${booking.eventDate}</p>
         <p><strong>Advance Paid:</strong> ₹${booking.advancePayment}</p>
         <button class="btn1"><a href="main.html" class="a">Back</a></button>
+        <button class="btn1 remove-btn">Remove</button>
       `;
+
+      // Remove button logic
+      card.querySelector(".remove-btn").addEventListener("click", () => {
+        bookings.splice(index, 1); // Remove from array
+        localStorage.setItem("userBookings", JSON.stringify(bookings)); // Update localStorage
+        renderBookings(); // Re-render the list
+      });
+
       bookingList.appendChild(card);
     });
   }
+
+  renderBookings();
 </script>
 
 </body>
+
 </html>
